@@ -64,7 +64,7 @@ const Home = () => {
       <main>
         <div>
           <div className="bg-slate-900 text-white sticky top-0 shadow-2xl z-10 p-2 flex justify-between items-center">
-            <h1 className="text-5xl text-red-500 font-bold font-serif sm:mx-auto">
+            <h1 className="text-3xl sm:text-5xl text-red-500 font-bold font-serif sm:mx-auto">
               QuizHive
             </h1>
             {isLoggedIn ? (
@@ -73,8 +73,7 @@ const Home = () => {
                   <PopoverTrigger>
                     {" "}
                     <div
-                      className="w-24 h-24 flex justify-end p-6 cursor-pointer"
-                      
+                      className="w-24 h-24 flex justify-end p-6 cursor-pointer transition-all hover:scale-110 duration-300"
                     >
                       <img
                         src="./user.png"
@@ -105,7 +104,7 @@ const Home = () => {
               <div className="flex justify-end">
                 <Button
                   onClick={() => navigate("/login")}
-                  className="rounded-full m-4 w-28 bg-red-500 hover:bg-red-300"
+                  className="rounded-full m-4 w-16 h-8 sm:h-10 text-sm sm:w-28 bg-red-500 hover:bg-red-300"
                 >
                   Login
                 </Button>

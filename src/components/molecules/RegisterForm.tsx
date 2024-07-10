@@ -103,7 +103,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input placeholder="" {...field} type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +116,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input placeholder="" {...field} type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,10 +125,7 @@ export function RegisterForm() {
         <Button type="submit" className="w-full rounded-3xl">
           Register
         </Button>
-        <Link
-          to={"/login"}
-          className="block text-sm underline text-indigo-300"
-        >
+        <Link to={"/login"} className="block text-sm underline text-indigo-300">
           Already registered? Login here.
         </Link>
       </form>

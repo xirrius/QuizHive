@@ -99,9 +99,7 @@ const Stats = () => {
                   <h3 className="text-center md:text-left font-bold text-2xl mb-3 mt-3">
                     {quiz.title}
                   </h3>
-                  <p className="text-center md:text-left text-sm max-w-96">
-                    {quiz.description}
-                  </p>
+                  
                 </div>
                 <p className="font-bold ml-4 md:ml-12 mb-4">
                   Current Score: {quiz.score}/10

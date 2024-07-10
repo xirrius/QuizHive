@@ -63,7 +63,7 @@ const QuizComponent = () => {
     if (quiz && selectedOption !== null) {
       let updatedScore = currentScore
       if (
-        selectedOption === quiz.questions[currentQuestionIndex].correctOption
+        selectedOption == quiz.questions[currentQuestionIndex].correctOption
       ) {
         updatedScore += 1
       }
