@@ -13,6 +13,7 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 import { LoadingSpinner } from "../components/ui/loading";
+import toast from "react-hot-toast";
 
 
 interface Category {
@@ -53,6 +54,7 @@ const Home = () => {
       await signOut(auth);
       dispatch(clearUser());
       dispatch(resetScores());
+      toast.success('Logout successful.')
       setIsLoggedIn(false)
     } catch (error) {
       console.error("error logging out", error);

@@ -17,17 +17,18 @@ import {
 import { Input } from "../../components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { toast } from "react-hot-toast";
 
 const formSchema = z
   .object({
-    email: z.string().min(2, {
-      message: "Email must be at least 2 characters.",
+    email: z.string().min(3, {
+      message: "Email must be at least 3 characters.",
     }),
-    password: z.string().min(5, {
-      message: "Password must be at least 5 characters.",
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
     }),
-    confirmPassword: z.string().min(5, {
-      message: "Password must be at least 5 characters.",
+    confirmPassword: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
     }),
   })
   .superRefine((data, ctx) => {
@@ -40,20 +41,18 @@ const formSchema = z
     }
   });
 
-
-const initializeUserScores = async (userId:string, quizIds: string[]) => {
+const initializeUserScores = async (userId: string, quizIds: string[]) => {
   const quizScores = quizIds.reduce((acc, quizId) => {
-    acc[quizId] = 0
-    return acc
-  }, {} as { [key:string]: number})
+    acc[quizId] = 0;
+    return acc;
+  }, {} as { [key: string]: number });
 
-  const userScoreRef = doc(db, "userScores", userId)
-  await setDoc(userScoreRef, {...quizScores})
-}
-
+  const userScoreRef = doc(db, "userScores", userId);
+  await setDoc(userScoreRef, { ...quizScores });
+};
 
 export function RegisterForm() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,22 +62,25 @@ export function RegisterForm() {
     },
   });
 
-  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then(async (userCredential) => {
         console.log(userCredential.user);
-
-        const querySnapshot = await getDocs(collection(db, "quizzes"))
-        const quizIds = querySnapshot.docs.map(doc => doc.id)
+        const querySnapshot = await getDocs(collection(db, "quizzes"));
+        const quizIds = querySnapshot.docs.map((doc) => doc.id);
         await initializeUserScores(userCredential.user.uid, quizIds);
-        navigate('/login')
+        toast.success("Registration successful.")
+        navigate("/login");
       })
       .catch((error) => {
-        console.error("Error registering user: ",error); 
+        let errorMessage = error.message || "An unexpected error occurred.";
+        if(errorMessage == "Firebase: Error (auth/email-already-in-use).") errorMessage = 'This email is already in use.'
+        if (errorMessage == "Firebase: Error (auth/invalid-email).")
+          errorMessage = "Invalid email address.";
+        toast.error(errorMessage);
+        console.log("Error registering user: ", error);
       });
   }
-
 
   return (
     <Form {...form}>

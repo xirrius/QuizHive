@@ -21,13 +21,14 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../state/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { setScores } from "../../state/score/scoreSlice";
+import {toast} from "react-hot-toast"
 
 const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email is required.",
+  email: z.string().min(3, {
+    message: "Email must be at least 3 characters.",
   }),
-  password: z.string().min(5, {
-    message: "Password is required.",
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
   }),
 });
 
@@ -43,8 +44,7 @@ const fetchUserScores = async (userId: string) => {
 };
 
 export function LoginForm() {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,10 +54,11 @@ export function LoginForm() {
       password: "",
     },
   });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     signInWithEmailAndPassword(auth, values.email, values.password)
-      .then( async (userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         dispatch(
           setUser({
@@ -65,15 +66,23 @@ export function LoginForm() {
             email: user.email,
           })
         );
-        const userScores = await fetchUserScores(user.uid)
-        dispatch(setScores(userScores))
+        const userScores = await fetchUserScores(user.uid);
+        dispatch(setScores(userScores));
         console.log(user);
+        toast.success("Login successful.");
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error logging in: ", error);
+        let errorMessage = error.message || "An unexpected error occurred.";
+        if (errorMessage == "Firebase: Error (auth/invalid-credential).")
+          errorMessage = "Incorrect email or password. Make sure you have registered.";
+        if (errorMessage == "Firebase: Error (auth/invalid-email).")
+          errorMessage = "Invalid email address.";
+        toast.error(errorMessage);
+        console.log("Error registering user: ", error);
       });
   }
+
   return (
     <Form {...form}>
       <form
