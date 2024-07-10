@@ -70,10 +70,10 @@ const Stats = () => {
             />
           </svg>
         </Button>
-        <h1 className="text-2xl sm:text-4xl text-center text-red-500 font-bold font-serif pb-4 ">
+        <h1 className="font-nova text-2xl sm:text-4xl text-center text-red-500 font-bold pb-4 ">
           Your Score Statistics
         </h1>
-        <p className="text-sm sm:text-md text-center font-mono my-2 mx-4 sm:mx-24 md:mx-16">
+        <p className="font-mono text-sm sm:text-md text-center my-2 mx-4 sm:mx-24 md:mx-16">
           Note: These scores are based on the result of the latest attempt
           taken.
         </p>
@@ -86,7 +86,7 @@ const Stats = () => {
         <div className="flex-col">
           {quizzes.map((quiz) => (
             <div
-              className="bg-indigo-300 m-4  rounded-xl shadow-lg flex flex-col md:flex-row items-center mx-12 sm:mx-24 md:mx-12 lg:mx-28 transition-all duration-500 hover:scale-105 hover:shadow-2xl my-12"
+              className="bg-gray-100 m-4  rounded-xl shadow-lg flex flex-col md:flex-row items-center mx-12 sm:mx-24 md:mx-12 lg:mx-28 transition-all duration-500 hover:scale-105 hover:shadow-2xl my-12"
               key={quiz.id}
             >
               <img
@@ -96,7 +96,7 @@ const Stats = () => {
               />
               <div className="flex flex-col md:flex-row items-center justify-between w-full pr-8 gap-4">
                 <div className="ml-4 md:ml-12">
-                  <h3 className="text-center md:text-left font-bold text-2xl mb-3 mt-3">
+                  <h3 className="font-nova text-center md:text-left font-bold text-2xl mb-3 mt-3">
                     {quiz.title}
                   </h3>
                   

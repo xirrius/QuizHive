@@ -65,9 +65,9 @@ const Home = () => {
     <>
       <main>
         <div>
-          <div className="bg-slate-900 text-white sticky top-0 shadow-2xl z-10 p-2 flex justify-between items-center">
-            <h1 className="text-3xl sm:text-5xl text-red-500 font-bold font-serif sm:mx-auto">
-              QuizHive
+          <div className="backdrop-blur-3xl text-white sticky top-0  z-10 p-2 flex justify-between items-center">
+            <h1 className="font-nova text-3xl pl-12 sm:text-6xl mb-3 text-red-500 font-bold sm:mx-auto ">
+              Quiz Hive
             </h1>
             {isLoggedIn ? (
               <>
@@ -88,15 +88,15 @@ const Home = () => {
                     <div className="flex-col flex bg-red-400  rounded-2xl shadow-2xl">
                       <Button
                         className="bg-red-400 hover:bg-red-300"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </Button>
-                      <Button
-                        className="bg-red-400 hover:bg-red-300"
                         onClick={() => navigate("/stats")}
                       >
                         Statistics
+                      </Button>
+                      <Button
+                        className="bg-red-400 hover:bg-red-300"
+                        onClick={handleLogout}
+                      >
+                        Logout
                       </Button>
                     </div>
                   </PopoverContent>
@@ -114,8 +114,8 @@ const Home = () => {
             )}
           </div>
 
-          <p className="text-center text-sm font-mono text-indigo-900 my-12 bg-slate-300 p-4 rounded-2xl shadow-lg mx-16">
-            Welcome to the ultimate quiz platform, QuizHive! Pick a quiz to take
+          <p className="text-center font-mono text-indigo-900 my-12 bg-slate-300 p-4 rounded-2xl shadow-lg mx-12 sm:mx-28 font-mono">
+            Welcome to the ultimate quiz mania, Quiz Hive! Pick a quiz to take
             from any of the given categories, and put your knowledge to test!
           </p>
 
@@ -129,11 +129,11 @@ const Home = () => {
                 <Link
                   to={`/category/${category.id}`}
                   key={category.id}
-                  className="text-red-600"
+                  className="text-white"
                 >
                   <li
                     key={category.id}
-                    className="shadow-lg bg-slate-300 rounded-2xl  transition-all duration-500 hover:scale-105 hover:shadow-2xl
+                    className="shadow-lg bg-black rounded-2xl  transition-all duration-500 hover:scale-105 hover:shadow-2xl
               "
                   >
                     <img
@@ -141,7 +141,7 @@ const Home = () => {
                       alt="category_image"
                       className="w-56 h-48 rounded-t-2xl"
                     />
-                    <p className="p-4 text-center">{category.name}</p>
+                    <p className="p-4 text-center font-nova">{category.name}</p>
                   </li>
                 </Link>
               ))}

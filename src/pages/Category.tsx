@@ -109,8 +109,8 @@ const Category = () => {
         </DialogTrigger>
         <DialogContent className="rounded-lg">
           <DialogHeader>
-            <DialogTitle className="font-bold text-3xl mb-2">Login Required</DialogTitle>
-            <DialogDescription className="py-4">
+            <DialogTitle className="font-bold text-3xl mb-2 text-center">Login Required</DialogTitle>
+            <DialogDescription className="py-4 text-center">
               You need to log in to take this quiz. Do you want to log in now?
             </DialogDescription>
           </DialogHeader>
@@ -124,8 +124,6 @@ const Category = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-
 
       <div className="bg-slate-900 text-white pb-8 shadow-2xl sticky top-0 z-10">
         <Button
@@ -152,10 +150,10 @@ const Category = () => {
             />
           </svg>
         </Button>
-        <h1 className="text-2xl sm:text-4xl text-center text-red-500 font-bold font-serif pb-4 ">
+        <h1 className="font-nova text-2xl sm:text-4xl text-center text-red-500 font-bold pb-4 ">
           {category?.name}
         </h1>
-        <p className="text-sm sm:text-md text-center font-mono my-2 mx-4 sm:mx-24 md:mx-16">
+        <p className="font-mono text-sm sm:text-md text-center my-2 mx-4 sm:mx-24 md:mx-16">
           {category?.description}
         </p>
       </div>
@@ -167,7 +165,7 @@ const Category = () => {
         <div className="flex-col">
           {quizzes.map((quiz) => (
             <div
-              className="bg-indigo-300 m-4  rounded-xl shadow-lg flex flex-col md:flex-row items-center mx-12 sm:mx-24 md:mx-12 lg:mx-28 transition-all duration-500 hover:scale-105 hover:shadow-2xl my-12"
+              className="bg-gray-100 m-4  rounded-xl shadow-lg flex flex-col md:flex-row items-center mx-12 sm:mx-24 md:mx-12 lg:mx-28 transition-all duration-500 hover:scale-105 hover:shadow-2xl my-12"
               key={quiz.id}
             >
               <img
@@ -177,7 +175,7 @@ const Category = () => {
               />
               <div className="flex flex-col md:flex-row items-center justify-between w-full pr-8 gap-4">
                 <div className="ml-4 md:ml-12">
-                  <h3 className="text-center md:text-left font-bold text-2xl mb-3 mt-3">
+                  <h3 className="font-nova text-center md:text-left font-bold text-2xl mb-3 mt-3">
                     {quiz.title}
                   </h3>
                   <p className="text-center md:text-left text-sm max-w-96">
