@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import { Button } from "../components/ui/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { clearUser } from "../state/user/userSlice";
 import { resetScores } from "../state/score/scoreSlice";
@@ -14,6 +14,7 @@ import {
 } from "../components/ui/popover";
 import { LoadingSpinner } from "../components/ui/loading";
 import toast from "react-hot-toast";
+import { RootState } from "../state/store";
 
 
 interface Category {
@@ -24,14 +25,15 @@ interface Category {
 
 const Home = () => {
   const navigate = useNavigate()
+  const user = useSelector((state:RootState) => state.user)
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false) 
 
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
-    if(auth.currentUser) {
+    if(user) {
       setIsLoggedIn(true)
     }
     const getCategories = async () => {
@@ -114,7 +116,7 @@ const Home = () => {
             )}
           </div>
 
-          <p className="text-center font-mono text-indigo-900 my-12 bg-slate-300 p-4 rounded-2xl shadow-lg mx-12 sm:mx-28 font-mono">
+          <p className="text-center text-indigo-900 my-12 bg-slate-300 p-4 rounded-2xl shadow-lg mx-12 sm:mx-28 font-mono">
             Welcome to the ultimate quiz mania, Quiz Hive! Pick a quiz to take
             from any of the given categories, and put your knowledge to test!
           </p>
