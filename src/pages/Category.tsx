@@ -162,7 +162,7 @@ const Category = () => {
           <LoadingSpinner className="text-red-500"></LoadingSpinner>
         </div>
       ) : (
-        <div className="flex-col">
+        <div className="flex-col mb-32">
           {quizzes.map((quiz) => (
             <div
               className="bg-gray-100 m-4  rounded-xl shadow-lg flex flex-col md:flex-row items-center mx-12 sm:mx-24 md:mx-12 lg:mx-28 transition-all duration-500 hover:scale-105 hover:shadow-2xl my-12"

@@ -379,7 +379,7 @@ const handleNextQuestion = async () => {
             </div>
           </div>
         ) : quizEnded ? (
-          <div className="flex justify-center items-center mt-24">
+          <div className="flex justify-center items-center mt-24 mb-12">
             <div className="bg-orange-100 p-6 rounded-lg shadow-lg w-2/3 text-center">
               <h1 className="text-2xl sm:text-4xl font-bold my-4">
                 Quiz Has Ended
