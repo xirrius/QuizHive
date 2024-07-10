@@ -34,11 +34,18 @@ const QuizComponent = () => {
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      const snapshot = await getDoc(doc(db, "quizzes", id));
-      if (snapshot.exists()) {
-        const quizData = snapshot.data() as Quiz;
-        setQuiz(quizData);
-        console.log(quiz);
+      if(id) {
+        const snapshot = await getDoc(doc(db, "quizzes", id));
+        if (snapshot.exists()) {
+          const quizData = snapshot.data() as Quiz;
+          setQuiz(quizData);
+          console.log(quiz);
+        } else {
+          console.log(`No such document!`);
+        }   
+      } else {
+        console.log(`Quiz Id is not defined!`);
+        
       }
     };
     fetchQuiz();
@@ -73,10 +80,15 @@ const QuizComponent = () => {
   };
 
   const updateScoreInFirestore = async (score: number) => {
-    await updateDoc(doc(db, "userScores", uid), {
-      [id]: score,
-    });
-    dispatch(setScore({ quizId:id, score }));
+    if(uid && id) {
+      await updateDoc(doc(db, "userScores", uid), {
+        [id]: score,
+      });
+      dispatch(setScore({ quizId:id, score }));
+    } else {
+      console.log(`User ID or Quiz ID is not defined.`);
+      
+    }
   };
 
   return (
@@ -93,7 +105,7 @@ const QuizComponent = () => {
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 330 330"
             overflow="visible"
           >
@@ -198,7 +210,7 @@ const QuizComponent = () => {
                 (option, idx) => (
                   <li
                     key={option}
-                    onClick={() => handleOptionSelect(idx)}
+                    onClick={() => handleOptionSelect(idx.toString())}
                     className={`cursor-pointer mb-2 hover:bg-blue-400 rounded-md p-2 ${
                       selectedOption == idx.toString() ? "bg-blue-400" : ""
                     }`}

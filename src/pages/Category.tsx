@@ -52,14 +52,16 @@ const Category = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const docRef = doc(db, "categories", id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const categoryData = docSnap.data() as Category; // Cast to Category
-          setCategory(categoryData);
-          console.log(category);
-        } else {
-          console.log("Category not found.");
+        if(id) {
+          const docRef = doc(db, "categories", id);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const categoryData = docSnap.data() as Category; // Cast to Category
+            setCategory(categoryData);
+            console.log(category);
+          } else {
+            console.log("Category not found.");
+          }
         }
       } catch (error) {
         console.error("Error fetching category:", error);
@@ -137,7 +139,7 @@ const Category = () => {
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 330 330"
             overflow="visible"
           >
