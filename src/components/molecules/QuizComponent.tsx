@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import toast from "react-hot-toast";
 
 interface Question {
   question: string;
@@ -50,6 +51,14 @@ const QuizComponent = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState(300);
+
+  useEffect(() => {
+    if(!uid) {
+      navigate(-1)
+      toast.error("Session timed out.")
+    } 
+  }, [uid])
+  
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -160,6 +169,7 @@ const QuizComponent = () => {
 
   return (
     <main>
+
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogTrigger asChild>
           <Button className="hidden">Open</Button>
