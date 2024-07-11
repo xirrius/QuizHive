@@ -69,12 +69,13 @@ export function RegisterForm() {
         const querySnapshot = await getDocs(collection(db, "quizzes"));
         const quizIds = querySnapshot.docs.map((doc) => doc.id);
         await initializeUserScores(userCredential.user.uid, quizIds);
-        toast.success("Registration successful.")
+        toast.success("Registration successful.");
         navigate("/login");
       })
       .catch((error) => {
         let errorMessage = error.message || "An unexpected error occurred.";
-        if(errorMessage == "Firebase: Error (auth/email-already-in-use).") errorMessage = 'This email is already in use.'
+        if (errorMessage == "Firebase: Error (auth/email-already-in-use).")
+          errorMessage = "This email is already in use.";
         if (errorMessage == "Firebase: Error (auth/invalid-email).")
           errorMessage = "Invalid email address.";
         toast.error(errorMessage);

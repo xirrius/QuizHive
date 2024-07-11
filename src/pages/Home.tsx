@@ -33,7 +33,7 @@ const Home = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    if(user) {
+    if(user.uid) {
       setIsLoggedIn(true)
     }
     const getCategories = async () => {
@@ -49,7 +49,7 @@ const Home = () => {
       setLoading(false);
     };
     getCategories();
-  }, []);
+  }, [user.uid]);
 
   const handleLogout = async () => {
     try {

@@ -49,8 +49,7 @@ const QuizComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [timeLeft, setTimeLeft] = useState(300)
-
+  const [timeLeft, setTimeLeft] = useState(300);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -70,23 +69,23 @@ const QuizComponent = () => {
     fetchQuiz();
   }, [id]);
 
-   useEffect(() => {
-     let timer: NodeJS.Timeout;
-     if (!showGuidelines && !quizEnded) {
-       timer = setInterval(() => {
-         setTimeLeft((prevTime) => {
-           if (prevTime <= 1) {
-             clearInterval(timer);
-             setQuizEnded(true);
-             updateScoreInFirestore(currentScore);
-             return 0;
-           }
-           return prevTime - 1;
-         });
-       }, 1000);
-     }
-     return () => clearInterval(timer);
-   }, [showGuidelines, quizEnded]);
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (!showGuidelines && !quizEnded) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            setQuizEnded(true);
+            updateScoreInFirestore(currentScore);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [showGuidelines, quizEnded]);
 
   const startQuiz = () => {
     setShowGuidelines(false);
@@ -96,49 +95,49 @@ const QuizComponent = () => {
     setSelectedOption(option);
   };
 
-const handlePreviousQuestion = () => {
-  if (currentQuestionIndex > 0) {
-    setCurrentQuestionIndex(currentQuestionIndex - 1);
-    const prevSelectedOption = selectedOptions[currentQuestionIndex - 1];
-    setSelectedOption(prevSelectedOption);
-  }
-};
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      const prevSelectedOption = selectedOptions[currentQuestionIndex - 1];
+      setSelectedOption(prevSelectedOption);
+    }
+  };
 
+  const handleNextQuestion = async () => {
+    if (quiz && selectedOption !== null) {
+      let updatedScore = currentScore;
+      const currentQuestion = quiz.questions[currentQuestionIndex];
+      const isCorrect = selectedOption == currentQuestion.correctOption;
+      const previousSelectedOption = selectedOptions[currentQuestionIndex];
 
-const handleNextQuestion = async () => {
-  if (quiz && selectedOption !== null) {
-    let updatedScore = currentScore;
-    const currentQuestion = quiz.questions[currentQuestionIndex];
-    const isCorrect = selectedOption == currentQuestion.correctOption;
-    const previousSelectedOption = selectedOptions[currentQuestionIndex];
-
-    if (previousSelectedOption) {
-      const wasCorrect =
-        previousSelectedOption == currentQuestion.correctOption;
-      if (isCorrect && !wasCorrect) {
+      if (previousSelectedOption) {
+        const wasCorrect =
+          previousSelectedOption == currentQuestion.correctOption;
+        if (isCorrect && !wasCorrect) {
+          updatedScore += 1;
+        } else if (!isCorrect && wasCorrect) {
+          updatedScore -= 1;
+        }
+      } else if (isCorrect) {
         updatedScore += 1;
-      } else if (!isCorrect && wasCorrect) {
-        updatedScore -= 1;
       }
-    } else if (isCorrect) {
-      updatedScore += 1;
+
+      const updatedSelectedOptions = [...selectedOptions];
+      updatedSelectedOptions[currentQuestionIndex] = selectedOption;
+      setSelectedOptions(updatedSelectedOptions);
+
+      if (currentQuestionIndex < quiz.questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        setQuizEnded(true);
+        await updateScoreInFirestore(updatedScore);
+      }
+      setCurrentScore(updatedScore);
+      setSelectedOption(
+        updatedSelectedOptions[currentQuestionIndex + 1] || null
+      );
     }
-
-    const updatedSelectedOptions = [...selectedOptions];
-    updatedSelectedOptions[currentQuestionIndex] = selectedOption;
-    setSelectedOptions(updatedSelectedOptions);
-
-    if (currentQuestionIndex < quiz.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setQuizEnded(true);
-      await updateScoreInFirestore(updatedScore);
-    }
-    setCurrentScore(updatedScore);
-    setSelectedOption(updatedSelectedOptions[currentQuestionIndex + 1] || null);
-  }
-};
-
+  };
 
   const updateScoreInFirestore = async (score: number) => {
     if (uid && id) {

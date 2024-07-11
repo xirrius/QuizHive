@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../state/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { setScores } from "../../state/score/scoreSlice";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().min(3, {
@@ -75,7 +75,8 @@ export function LoginForm() {
       .catch((error) => {
         let errorMessage = error.message || "An unexpected error occurred.";
         if (errorMessage == "Firebase: Error (auth/invalid-credential).")
-          errorMessage = "Incorrect email or password. Make sure you have registered.";
+          errorMessage =
+            "Incorrect email or password. Make sure you have registered.";
         if (errorMessage == "Firebase: Error (auth/invalid-email).")
           errorMessage = "Invalid email address.";
         toast.error(errorMessage);

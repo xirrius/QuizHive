@@ -41,18 +41,18 @@ interface QuizWithScore extends Quiz {
 }
 
 const Category = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const scores = useSelector((state: RootState) => state.score);
   const [category, setCategory] = useState<Category>();
   const [quizzes, setQuizzes] = useState<QuizWithScore[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        if(id) {
+        if (id) {
           const docRef = doc(db, "categories", id);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
@@ -78,7 +78,7 @@ const Category = () => {
       const fetchedQuizzes = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        score: scores[doc.id] == null? '?': scores[doc.id],
+        score: scores[doc.id] == null ? "?" : scores[doc.id],
       })) as QuizWithScore[];
 
       setQuizzes(fetchedQuizzes);
@@ -88,13 +88,13 @@ const Category = () => {
     fetchQuizzes();
   }, [id]);
 
-  const handleTakeQuiz = (quizId:string) => {
-    if(!auth.currentUser) {
-      setShowModal(true)
+  const handleTakeQuiz = (quizId: string) => {
+    if (!auth.currentUser) {
+      setShowModal(true);
     } else {
-      navigate(`/quiz/${quizId}`)
+      navigate(`/quiz/${quizId}`);
     }
-  }
+  };
 
   const handleCloseDialog = () => {
     setShowModal(false);
@@ -102,23 +102,30 @@ const Category = () => {
 
   return (
     <main>
-
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogTrigger asChild>
           <Button className="hidden">Open</Button>
         </DialogTrigger>
         <DialogContent className="rounded-lg">
           <DialogHeader>
-            <DialogTitle className="font-bold text-3xl mb-2 text-center">Login Required</DialogTitle>
+            <DialogTitle className="font-bold text-3xl mb-2 text-center">
+              Login Required
+            </DialogTitle>
             <DialogDescription className="py-4 text-center">
               You need to log in to take this quiz. Do you want to log in now?
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center gap-16">
-            <Button onClick={handleCloseDialog} className="bg-gray-500 text-white  px-4 py-2 mr-2 rounded-full w-28">
+            <Button
+              onClick={handleCloseDialog}
+              className="bg-gray-500 text-white  px-4 py-2 mr-2 rounded-full w-28"
+            >
               Cancel
             </Button>
-            <Button onClick={() => navigate('/login')} className="bg-red-500 hover:bg-red-400 text-white  px-4 py-2 rounded-full w-28">
+            <Button
+              onClick={() => navigate("/login")}
+              className="bg-red-500 hover:bg-red-400 text-white  px-4 py-2 rounded-full w-28"
+            >
               Login
             </Button>
           </div>

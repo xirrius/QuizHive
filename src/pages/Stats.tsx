@@ -18,30 +18,27 @@ interface QuizWithScore extends Quiz {
   score: number;
 }
 
-
 const Stats = () => {
+  const navigate = useNavigate();
+  const scores = useSelector((state: RootState) => state.score);
+  const [quizzes, setQuizzes] = useState<QuizWithScore[]>([]);
+  const [loading, setLoading] = useState(true);
 
-      const navigate = useNavigate();
-      const scores = useSelector((state: RootState) => state.score);
-      const [quizzes, setQuizzes] = useState<QuizWithScore[]>([]);
-      const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      const querySnapshot = await getDocs(collection(db, "quizzes"));
+      const fetchedQuizzes = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        score: scores[doc.id],
+      })) as QuizWithScore[];
 
-
-    useEffect(() => {
-      const fetchQuizzes = async () => {
-        const querySnapshot = await getDocs(collection(db, "quizzes"));
-        const fetchedQuizzes = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          score: scores[doc.id],
-        })) as QuizWithScore[];
-
-        setQuizzes(fetchedQuizzes);
-        setLoading(false);
-        console.log(quizzes);
-      };
-      fetchQuizzes();
-    }, []);
+      setQuizzes(fetchedQuizzes);
+      setLoading(false);
+      console.log(quizzes);
+    };
+    fetchQuizzes();
+  }, []);
 
   return (
     <div>
@@ -99,7 +96,6 @@ const Stats = () => {
                   <h3 className="font-nova text-center md:text-left font-bold text-2xl mb-3 mt-3">
                     {quiz.title}
                   </h3>
-                  
                 </div>
                 <p className="font-bold ml-4 md:ml-12 mb-4">
                   Current Score: {quiz.score}/10
@@ -111,5 +107,5 @@ const Stats = () => {
       )}
     </div>
   );
-}
-export default Stats
+};
+export default Stats;
