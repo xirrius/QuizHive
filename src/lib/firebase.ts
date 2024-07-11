@@ -8,12 +8,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA1EEzQ9IUc1KtNC7GlFgZcyU9C1CvoKwQ",
-  authDomain: "quizapp-819d8.firebaseapp.com",
-  projectId: "quizapp-819d8",
-  storageBucket: "quizapp-819d8.appspot.com",
-  messagingSenderId: "837052813829",
-  appId: "1:837052813829:web:56335644b753be1b4d426c",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
